@@ -1,0 +1,5 @@
+FROM debian:stretch-slim
+COPY dist/ /
+RUN ldconfig \
+ && ldd /usr/local/bin/gnoproj | grep not.found || true
+

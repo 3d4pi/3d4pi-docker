@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ldd "$1" \
+| grep not.found \
+|  awk '{print $1}' \
+| xargs -r apt-file search \
+| cut -f 1 -d ':' \
+| sort -u \
+| xargs -r apt-get install -y

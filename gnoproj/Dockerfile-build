@@ -1,0 +1,22 @@
+FROM opencv-build
+
+ARG user=user
+USER $user
+WORKDIR /home/$user/src
+
+ARG branch=master
+RUN git clone --recursive -b $branch --single-branch https://github.com/3d4pi/gnoproj.git \
+ && cd gnoproj \
+ && mkdir build \
+ && cd build \
+ && cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_MODULE_PATH=/usr/local -D CMAKE_PREFIX_PATH=/usr/local .. \
+ && make -j $(nproc)
+
+USER root
+RUN cd /home/$user/src/gnoproj/build \
+ && make install \
+ && ldconfig
+
+USER $user
+
+ADD bin/copyall /usr/local/bin/
