@@ -1,5 +1,9 @@
 FROM debian:stretch-slim
 COPY dist/ /
-RUN ldconfig \
+RUN apt-get update \
+ && apt-get install -y \
+      parallel \
+      imagemagick \
+ && ldconfig \
  && ldd /usr/local/bin/gnoproj | grep not.found || true
 

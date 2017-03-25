@@ -35,3 +35,8 @@ if [ ! -d "$TARGET_FOLDER/lib64" ] ; then
     mkdir -v "$TARGET_FOLDER/lib64"
 fi
 
+# strip binaries
+find $TARGET_FOLDER -type f | xargs -r -n1 strip
+
+# be permissive
+chmod a+rwX $TARGET_FOLDER -R
